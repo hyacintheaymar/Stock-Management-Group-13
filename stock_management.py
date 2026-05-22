@@ -35,11 +35,11 @@ def get_valid_int(prompt: str) -> int:
         try:
             value = int(input(prompt))
             if value < 0:
-                print("  ⚠ Value cannot be negative. Please try again.")
+                print("  Value cannot be negative. Please try again.")
                 continue
             return value
         except ValueError:
-            print("  ⚠ Invalid integer. Please try again.")
+            print("  Invalid integer. Please try again.")
 
 
 def get_valid_float(prompt: str) -> float:
@@ -48,11 +48,11 @@ def get_valid_float(prompt: str) -> float:
         try:
             value = float(input(prompt))
             if value < 0:
-                print("  ⚠ Value cannot be negative. Please try again.")
+                print("  Value cannot be negative. Please try again.")
                 continue
             return value
         except ValueError:
-            print("  ⚠ Invalid number. Please try again.")
+            print("  Invalid number. Please try again.")
 
 
 def calculate_margin(purchase_price: float, selling_price: float) -> float:
@@ -132,9 +132,9 @@ def get_product_inputs() -> dict:
     margin_pct  = calculate_margin_percent(purchase_price, selling_price)
     stock_value = calculate_stock_value(quantity, selling_price)
 
-    print(f"\n  📊 Profit margin       : {margin:,.0f} FCFA")
-    print(f"  📊 Margin percentage   : {margin_pct:.1f} %")
-    print(f"  📊 Total stock value   : {stock_value:,.0f} FCFA")
+    print(f"\n  Profit margin       : {margin:,.0f} FCFA")
+    print(f"   Margin percentage   : {margin_pct:.1f} %")
+    print(f"  Total stock value   : {stock_value:,.0f} FCFA")
 
 
     product = {
@@ -252,7 +252,7 @@ def main() -> None:
             product = get_product_inputs()
             stock.append(product)
             display_summary(product)
-            print(f"\n  ✅ Produit '{product['name']}' ajouté avec succès !")
+            print(f"\n Produit '{product['name']}' ajouté avec succès !")
 
         # ── Option 2 : Afficher le stock ───────────────
         elif choice == "2":
@@ -267,7 +267,7 @@ def main() -> None:
                 for p in results:
                     display_summary(p)
             else:
-                print(f"\n  ❌ Aucun produit trouvé pour '{term}'.")
+                print(f"\n   Aucun produit trouvé pour '{term}'.")
 
         # ── Option 4 : Mettre à jour une quantité ─────
         elif choice == "4":
@@ -278,13 +278,13 @@ def main() -> None:
                     old_qty = p["quantity"]
                     p["quantity"] = new_qty
                     print(
-                        f"\n  ✅ Quantité de '{p['name']}' mise à jour : "
+                        f"\n   Quantité de '{p['name']}' mise à jour : "
                         f"{old_qty} → {new_qty} {p['unit']}"
                     )
                     found = True
                     break
             if not found:
-                print(f"\n  ❌ Produit '{name}' introuvable dans le stock.")
+                print(f"\n   Produit '{name}' introuvable dans le stock.")
 
         # ── Option 5 : Quitter ─────────────────────────
         elif choice == "5":
@@ -293,7 +293,7 @@ def main() -> None:
 
         # ── Choix invalide ─────────────────────────────
         else:
-            print("\n  ⚠ Choix invalide. Entrez un nombre entre 1 et 5.")
+            print("\n  Choix invalide. Entrez un nombre entre 1 et 5.")
 
 
 # ─────────────────────────────────────────────
