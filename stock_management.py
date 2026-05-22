@@ -25,7 +25,51 @@
 # Le stock est une liste de dictionnaires pour l'instant.
 # Membre 3 devra remplacer ces dicts par des instances de ses classes.
 stock: list = []
+# ─────────────────────────────────────────────
+#  MEMBRE 2 — Calculations + Validation
+# ─────────────────────────────────────────────
 
+def get_valid_int(prompt: str) -> int:
+    """Asks for an integer, re-prompts if invalid."""
+    while True:
+        try:
+            value = int(input(prompt))
+            if value < 0:
+                print("  ⚠ Value cannot be negative. Please try again.")
+                continue
+            return value
+        except ValueError:
+            print("  ⚠ Invalid integer. Please try again.")
+
+
+def get_valid_float(prompt: str) -> float:
+    """Asks for a float, re-prompts if invalid."""
+    while True:
+        try:
+            value = float(input(prompt))
+            if value < 0:
+                print("  ⚠ Value cannot be negative. Please try again.")
+                continue
+            return value
+        except ValueError:
+            print("  ⚠ Invalid number. Please try again.")
+
+
+def calculate_margin(purchase_price: float, selling_price: float) -> float:
+    """Calculates the profit margin in FCFA."""
+    return selling_price - purchase_price
+
+
+def calculate_margin_percent(purchase_price: float, selling_price: float) -> float:
+    """Calculates the margin as a percentage."""
+    if purchase_price == 0:
+        return 0.0
+    return ((selling_price - purchase_price) / purchase_price) * 100
+
+
+def calculate_stock_value(quantity: int, selling_price: float) -> float:
+    """Calculates the total stock value for a product."""
+    return quantity * selling_price
 
 # ─────────────────────────────────────────────
 #  AFFICHAGE DU MENU PRINCIPAL
@@ -75,20 +119,23 @@ def get_product_inputs() -> dict:
 
     # ── int ──────────────────────────────────────────
     # TODO:MEMBRE2 → entourer ces deux lignes d'un while + try/except
-    quantity: int     = int(input("Quantité en stock         : "))              # input 5
-    min_stock: int    = int(input("Seuil minimum de stock    : "))              # input 6
-
-    # ── float ─────────────────────────────────────────
-    # TODO:MEMBRE2 → entourer ces deux lignes d'un while + try/except
-    purchase_price: float = float(input("Prix d'achat (FCFA)       : "))       # input 7
-    selling_price: float  = float(input("Prix de vente (FCFA)      : "))       # input 8
+    quantity: int         = get_valid_int("Quantity in stock         : ")       # input 5
+    min_stock: int        = get_valid_int("Minimum stock threshold   : ")       # input 6
+    purchase_price: float = get_valid_float("Purchase price (FCFA)     : ")    # input 7
+    selling_price: float  = get_valid_float("Selling price (FCFA)      : ")    # input 8
 
     # ── bool — pattern correct ────────────────────────
     is_available: bool  = input("Disponible à la vente ? (oui/non) : ").strip().lower() == "oui"  # input 9
     is_perishable: bool = input("Produit périssable ?    (oui/non) : ").strip().lower() == "oui"  # input 10
 
-    # TODO:MEMBRE2 → ajouter ici le calcul de la marge bénéficiaire
-    #                (expression arithmétique : selling_price - purchase_price)
+    margin      = calculate_margin(purchase_price, selling_price)
+    margin_pct  = calculate_margin_percent(purchase_price, selling_price)
+    stock_value = calculate_stock_value(quantity, selling_price)
+
+    print(f"\n  📊 Profit margin       : {margin:,.0f} FCFA")
+    print(f"  📊 Margin percentage   : {margin_pct:.1f} %")
+    print(f"  📊 Total stock value   : {stock_value:,.0f} FCFA")
+
 
     product = {
         "name"           : product_name,
@@ -128,8 +175,7 @@ def get_update_inputs() -> tuple:
     print("   MISE À JOUR DE LA QUANTITÉ")
     print("-" * 45)
     product_name: str = input("Nom du produit à modifier : ").strip()          # input 12
-    # TODO:MEMBRE2 → entourer la ligne ci-dessous d'un while + try/except
-    new_quantity: int = int(input("Nouvelle quantité         : "))             # input 13
+    new_quantity: int = get_valid_int("New quantity              : ")      # input 13
     return product_name, new_quantity
 
 
