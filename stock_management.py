@@ -301,3 +301,119 @@ def main() -> None:
 # ─────────────────────────────────────────────
 if __name__ == "__main__":
     main()
+# ─────────────────────────────────────────────
+#  MEMBRE 3 — Classes Product + PerishableProduct
+#  Se base sur les dicts de Membre 1
+# ─────────────────────────────────────────────
+
+from datetime import date
+
+
+# =============================================================
+#  CLASSE PARENT — Product
+# =============================================================
+
+class Product:
+    """
+    Représente un produit dans le stock.
+    Remplace les dictionnaires utilisés par Membre 1.
+    TODO:MEMBRE4 → ajouter __str__, __repr__, __eq__
+    TODO:MEMBRE5 → ajouter @property, @staticmethod, @classmethod
+    """
+
+    def __init__(
+        self,
+        name: str,
+        category: str,
+        supplier: str,
+        unit: str,
+        quantity: int,
+        min_stock: int,
+        purchase_price: float,
+        selling_price: float,
+        is_available: bool,
+        is_perishable: bool,
+    ):
+        self.name           = name
+        self.category       = category
+        self.supplier       = supplier
+        self.unit           = unit
+        self.quantity       = quantity
+        self.min_stock      = min_stock
+        self.purchase_price = purchase_price
+        self.selling_price  = selling_price
+        self.is_available   = is_available
+        self.is_perishable  = is_perishable
+
+    # TODO:MEMBRE4 → __str__ ici
+
+
+# =============================================================
+#  CLASSE ENFANT — PerishableProduct
+# =============================================================
+
+class PerishableProduct(Product):
+    """
+    Produit périssable — hérite de Product.
+    Ajoute une date d'expiration.
+    TODO:MEMBRE5 → ajouter @property expiry, is_expired, etc.
+    """
+
+    def __init__(self, expiry_date: date, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.expiry_date  = expiry_date
+        self.is_perishable = True   # toujours True pour ce type
+
+    # TODO:MEMBRE4 → __str__ ici
+
+
+# =============================================================
+#  TEST MEMBRE 3
+# =============================================================
+
+if __name__ == "__main__":
+    print("=== TEST MEMBRE 3 — Classes ===\n")
+
+    # Créer un produit normal
+    p = Product(
+        name           = "Riz local",
+        category       = "Alimentaire",
+        supplier       = "Agro-BF",
+        unit           = "kg",
+        quantity       = 50,
+        min_stock      = 10,
+        purchase_price = 300.0,
+        selling_price  = 450.0,
+        is_available   = True,
+        is_perishable  = False,
+    )
+
+    print(f"Nom         : {p.name}")
+    print(f"Catégorie   : {p.category}")
+    print(f"Fournisseur : {p.supplier}")
+    print(f"Quantité    : {p.quantity} {p.unit}")
+    print(f"Prix achat  : {p.purchase_price} FCFA")
+    print(f"Prix vente  : {p.selling_price} FCFA")
+    print(f"Disponible  : {p.is_available}")
+    print(f"Périssable  : {p.is_perishable}")
+
+    print("\n--- Produit périssable ---\n")
+
+    # Créer un produit périssable
+    pp = PerishableProduct(
+        expiry_date    = date(2025, 6, 15),
+        name           = "Tomates fraîches",
+        category       = "Alimentaire",
+        supplier       = "Ferme BF",
+        unit           = "kg",
+        quantity       = 20,
+        min_stock      = 5,
+        purchase_price = 200.0,
+        selling_price  = 350.0,
+        is_available   = True,
+        is_perishable  = True,
+    )
+
+    print(f"Nom          : {pp.name}")
+    print(f"Périssable   : {pp.is_perishable}")
+    print(f"Expiration   : {pp.expiry_date}")
